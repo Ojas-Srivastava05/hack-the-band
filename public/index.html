@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 BAND NAME GENERATOR 🔥</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Matrix-style background */
+        .matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .matrix canvas {
+            display: block;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff41;
+            border-radius: 0;
+            padding: 3rem;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            box-shadow: 
+                0 0 50px #00ff41,
+                inset 0 0 50px rgba(0, 255, 65, 0.1);
+            animation: borderGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { box-shadow: 0 0 20px #00ff41, inset 0 0 20px rgba(0, 255, 65, 0.1); }
+            100% { box-shadow: 0 0 60px #00ff41, inset 0 0 60px rgba(0, 255, 65, 0.2); }
+        }
+
+        .glitch-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00ff41;
+            margin-bottom: 0.5rem;
+            position: relative;
+            animation: glitch 0.3s infinite;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-title::before {
+            animation: glitch-1 0.3s infinite;
+            color: #ff0040;
+            z-index: -1;
+        }
+
+        .glitch-title::after {
+            animation: glitch-2 0.3s infinite;
+            color: #00ffff;
+            z-index: -2;
+        }
+
+        @keyframes glitch {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% { transform: translate(0); }
+            15%, 49% { transform: translate(-2px, 1px); }
+            50%, 99% { transform: translate(1px, -1px); }
+        }
+
+        @keyframes glitch-1 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% { transform: translate(0); }
+            15%, 49% { transform: translate(2px, 1px); }
+            50%, 99% { transform: translate(-1px, -1px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% { transform: translate(0); }
+            15%, 49% { transform: translate(-1px, 2px); }
+            50%, 99% { transform: translate(1px, 1px); }
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-container {
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid #00ff41;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            color: #00ff41;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cyber-input {
+            width: 100%;
+            padding: 1rem;
+            background: #000;
+            border: 2px solid #333;
+            color: #00ff41;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-input:focus {
+            border-color: #00ff41;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        .cyber-input::placeholder {
+            color: #555;
+        }
+
+        .hack-btn {
+            background: linear-gradient(45deg, #00ff41, #00cc33);
+            border: none;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .hack-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #00ff41;
+        }
+
+        .hack-btn:active {
+            transform: scale(0.98);
+        }
+
+        .hack-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .hack-btn:hover::before {
+            left: 100%;
+        }
+
+        .result-terminal {
+            background: #000;
+            border: 2px solid #00ff41;
+            padding: 2rem;
+            margin-top: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .result-terminal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            color: #00ff41;
+        }
+
+        .terminal-prompt {
+            color: #ff0040;
+        }
+
+        .band-name-display {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #00ffff;
+            margin: 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: neonPulse 1.5s ease-in-out infinite alternate;
+            text-shadow: 
+                0 0 10px #00ffff,
+                0 0 20px #00ffff,
+                0 0 40px #00ffff;
+        }
+
+        @keyframes neonPulse {
+            0% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
+            100% { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 60px #00ffff; }
+        }
+
+        .genre-display {
+            color: #ff0040;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid #ff0040;
+            color: #ff0040;
+            padding: 0.8rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #ff0040;
+            color: #000;
+            box-shadow: 0 0 20px #ff0040;
+        }
+
+        .typing-effect {
+            border-right: 2px solid #00ff41;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: #00ff41; }
+            51%, 100% { border-color: transparent; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+            
+            .glitch-title {
+                font-size: 2rem;
+            }
+            
+            .band-name-display {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix">
+        <canvas id="matrix-canvas"></canvas>
+    </div>
+
+    <div class="container">
+        <h1 class="glitch-title" data-text="BAND GENERATOR">BAND GENERATOR</h1>
+        <p class="subtitle">Initialize Band Name Protocol</p>
+        
+        <div class="form-container">
+            <div class="input-group">
+                <label class="input-label">► Street_Name.exe</label>
+                <input type="text" class="cyber-input" id="streetInput" placeholder="Enter street designation..." required>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">► Pet_Name.dll</label>
+                <input type="text" class="cyber-input" id="petInput" placeholder="Enter pet identifier..." required>
+            </div>
+            
+            <button class="hack-btn" onclick="generateBandName()">
+                EXECUTE HACK
+            </button>
+        </div>
+        
+        <div id="terminal" class="result-terminal">
+            <div class="terminal-line"><span class="terminal-prompt">root@bandgen:~$</span> Initializing name generation...</div>
+            <div class="terminal-line"><span class="terminal-prompt">root@bandgen:~$</span> Scanning neural networks...</div>
+            <div class="terminal-line"><span class="terminal-prompt">root@bandgen:~$</span> Compiling sick beats...</div>
+            <div class="terminal-line"><span class="terminal-prompt">root@bandgen:~$</span> Band name generated successfully!</div>
+            <div class="terminal-line">
+                <div class="genre-display" id="genreDisplay"></div>
+                <div class="band-name-display" id="bandNameDisplay"></div>
+            </div>
+            <button class="reset-btn" onclick="resetGenerator()">REBOOT SYSTEM</button>
+        </div>
+    </div>
+
+    <script>
+        // Matrix effect
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Band name generation
+        const genres = [
+            "CYBER-PUNK ROCK", "NEO-METAL", "DIGITAL HARDCORE", "SYNTH-CORE", 
+            "ELECTRO-PUNK", "CYBER-TRAP", "NEON-WAVE", "TECH-METAL",
+            "GLITCH-HOP ROCK", "BASS-CORE", "CYBER-BEATS", "DIGITAL-PUNK"
+        ];
+
+        const prefixes = [
+            "CYBER", "NEON", "DIGITAL", "TOXIC", "ELECTRIC", "PLASMA", "LASER",
+            "ATOMIC", "QUANTUM", "NEURAL", "BINARY", "CHROME", "STEEL", "VOID"
+        ];
+
+        const suffixes = [
+            "PROTOCOL", "SYSTEM", "NETWORK", "MATRIX", "ALGORITHM", "CODE",
+            "VIRUS", "HACK", "GLITCH", "PULSE", "WAVE", "SYNC", "CORE", "FLUX"
+        ];
+
+        function generateBandName() {
+            const street = document.getElementById('streetInput').value.trim().toUpperCase();
+            const pet = document.getElementById('petInput').value.trim().toUpperCase();
+
+            if (!street || !pet) {
+                alert('ERROR: MISSING INPUT DATA');
+                return;
+            }
+
+            const terminal = document.getElementById('terminal');
+            const bandNameDisplay = document.getElementById('bandNameDisplay');
+            const genreDisplay = document.getElementById('genreDisplay');
+
+            // Show terminal with typing effect
+            terminal.classList.add('active');
+
+            setTimeout(() => {
+                // Generate enhanced band name
+                let bandName = street + " " + pet;
+                
+                // 70% chance to add prefix
+                if (Math.random() > 0.3) {
+                    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+                    bandName = prefix + " " + bandName;
+                }
+                
+                // 60% chance to add suffix
+                if (Math.random() > 0.4) {
+                    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+                    bandName = bandName + " " + suffix;
+                }
+
+                // Random stylizations
+                const styles = [
+                    name => name,
+                    name => name.replace(/\s/g, "_"),
+                    name => name.replace(/\s/g, "-"),
+                    name => name.replace(/\s/g, ""),
+                    name => "[" + name + "]",
+                    name => name.split(" ").map(word => word + "X").join(" ")
+                ];
+
+                const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+                bandName = randomStyle(bandName);
+
+                // Select random genre
+                const genre = genres[Math.floor(Math.random() * genres.length)];
+
+                // Display with typing effect
+                typeText(genreDisplay, `Genre: ${genre}`, () => {
+                    typeText(bandNameDisplay, bandName);
+                });
+            }, 1000);
+        }
+
+        function typeText(element, text, callback = null) {
+            element.textContent = '';
+            element.classList.add('typing-effect');
+            let i = 0;
+            
+            const typeInterval = setInterval(() => {
+                element.textContent += text[i];
+                i++;
+                
+                if (i >= text.length) {
+                    clearInterval(typeInterval);
+                    element.classList.remove('typing-effect');
+                    if (callback) callback();
+                }
+            }, 50);
+        }
+
+        function resetGenerator() {
+            document.getElementById('streetInput').value = '';
+            document.getElementById('petInput').value = '';
+            document.getElementById('terminal').classList.remove('active');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                generateBandName();
+            }
+            if (e.key === 'Escape') {
+                resetGenerator();
+            }
+        });
+
+        // Window resize handler for matrix
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
